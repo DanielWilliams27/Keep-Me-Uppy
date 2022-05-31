@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Ball.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Foot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/Background.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Images/Backgrounds/Field.jpg" type="Texture" id=6]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Ball" parent="." instance=ExtResource( 1 )]
+position = Vector2( 508, 154 )
+input_pickable = true
+
+[node name="Foot" parent="." instance=ExtResource( 2 )]
+position = Vector2( 513, 354 )
+scale = Vector2( 1.5, 1.5 )
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 1024, 600 )
+rotation = 3.14159
+scale = Vector2( 0.26, 0.26 )
+z_index = -10
+texture = ExtResource( 6 )
+centered = false
+script = ExtResource( 5 )
+
+[connection signal="score" from="Foot" to="HUD" method="_on_Foot_score"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
